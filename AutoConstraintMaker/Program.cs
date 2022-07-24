@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using MikuMikuLibrary.IO;
@@ -90,7 +91,14 @@ namespace AutoConstraintMaker
         static void Main(string[] args)
         {
             // it assumes that the object farc is in an objset folder, with the bone_data just outside it
-            var boneDb = BinaryFile.Load<BoneDatabase>(Path.GetDirectoryName(args[0]) + "\\..\\bone_data.bin");
+            // fuck that im embedding the bone data. fuck it im crazy! kash doll reaction video
+            // https://stackoverflow.com/questions/3314140/how-to-read-embedded-resource-text-file
+            //var assembly = Assembly.GetExecutingAssembly();
+            //var resourceName = "AutoConstraintMaker.Properties.Resources.bone_data.bin";
+            byte[] boneDataArray = AutoConstraintMaker.Properties.Resources.bone_data_bin;
+            Stream boneDataStream = new MemoryStream(boneDataArray);
+            var embeddedBoneDb = boneDataStream;
+            var boneDb = BinaryFile.Load<BoneDatabase>(embeddedBoneDb);
             var objFarc = BinaryFile.Load<FarcArchive>(args[0]);
             var objBinSrc = objFarc.Open(objFarc.First(x => x.EndsWith("_obj.bin")), EntryStreamMode.MemoryStream);
             var objSet = BinaryFile.Load<ObjectSet>(objBinSrc);

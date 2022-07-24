@@ -69,5 +69,15 @@ namespace AutoConstraintMaker.Properties {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] map {
+            get {
+                object obj = ResourceManager.GetObject("map", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }
